@@ -6,7 +6,7 @@ import { ConfigModule } from '@url-svcs/core/config/config.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forRoot('mongodb://mongo:27017/urls'),
+    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/urlshortener'),
     UrlModule,
   ],
 
