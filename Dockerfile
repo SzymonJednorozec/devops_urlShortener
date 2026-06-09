@@ -1,9 +1,16 @@
-FROM node:12.20.2-alpine3.10
+FROM node:20-alpine AS url-shortener-builder
 
-WORKDIR /url-svc
-
-COPY package*.json ./
-
+RUN apk add --no-cache git
+WORKDIR /app
+RUN git clone https://github.com/SzymonJednorozec/devops_urlShortener.git .
 RUN npm install
+RUN npm run build
 
-CMD ["npm", "run", "start:debug"]
+FROM node:20-alpine
+WORKDIR /app
+
+COPY --from=url-shortener-builder /app/package*.json ./
+RUN npm install --omit=dev --legacy-peer-deps
+COPY --from=url-shortener-builder /app/dist ./dist
+
+CMD ["node", "dist/main"]
