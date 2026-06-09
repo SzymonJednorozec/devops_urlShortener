@@ -5,6 +5,7 @@ on:
     branches: [ "ino_dev" ]
   pull_request:
     branches: [ "ino_dev" ]
+  workflow_dispatch:
 
 jobs:
   build-application:
